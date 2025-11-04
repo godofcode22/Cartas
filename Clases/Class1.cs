@@ -4,5 +4,6 @@ namespace Cartas.Clases;
 
 public class Class1
 {
+  
 
 }
