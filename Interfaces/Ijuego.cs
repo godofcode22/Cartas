@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
-
-public interface Interface1
+public interface IJuego
 {
-  public void Metodo1();
+  void PrepararJuego();
+  void Jugar();
+
 }
