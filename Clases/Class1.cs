@@ -1,17 +1,25 @@
-using System;
+using Cartas.Interfaces;
 
-
-
-public class Class1: Interface1
+namespace Cartas.Clases
 {
-    public static void Saludar()
+    public class Carta : ICarta
     {
-        Console.WriteLine("Hola desde Class1");
-    }
-    public void Metodo1()
-    {
-        Console.WriteLine("Implementación de Metodo1 en Class1");
-    }
-    
+        public string Figura { get; set; }
+        public string Palo { get; set; }
+        public string Color { get; set; }
+        public int Valor { get; set; }
 
+        public Carta(string figura, string palo, string color, int valor)
+        {
+            Figura = figura;
+            Palo = palo;
+            Color = color;
+            Valor = valor;
+        }
+
+        public string MostrarCarta()
+        {
+            return $"{Figura} de {Palo} ({Color})";
+        }
+    }
 }

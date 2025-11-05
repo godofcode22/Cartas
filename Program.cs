@@ -1,12 +1,25 @@
 ﻿using System;
+using Cartas.Clases;
 
 class ProyectoCartas
 {
     static void Main()
     {
-        Console.WriteLine("Bien");
-        Class1.Saludar();
-        Class1 Onjeto = new Class1();
-        Onjeto.Metodo1();
+        var mazo = new Mazo();
+        mazo.Barajar();
+
+        var manoJugador = new Mano();
+
+        for (int i = 0; i < 2; i++)
+        {
+            var carta = mazo.RepartirCarta();
+            manoJugador.AgregarCarta(carta);
+            Console.WriteLine($"Carta {i + 1}: {carta.MostrarCarta()}");
+        }
+        var calculador = new CalculadorPuntosBlackjack();
+        int puntos = calculador.CalcularPuntos(manoJugador);
+
+        Console.WriteLine($"Puntos del jugador: {puntos}");
+        Console.WriteLine($"Cartas restantes en el mazo: {mazo.CartasRestantes()}");
     }
 }
