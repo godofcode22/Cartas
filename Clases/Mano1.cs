@@ -5,7 +5,7 @@ namespace Cartas.Clases
 {
     public class Mano
     {
-        public List<Carta> Cartas { get; private set; }
+        public List<CartaBlackJack> Cartas { get; private set; }
 
         public Mano()
         {
@@ -14,7 +14,7 @@ namespace Cartas.Clases
 
         public void AgregarCarta(CartaBlackJack carta)
         {
-            Cartas.Add(CartaBlackJack);
+            Cartas.Add(carta);
         }
 
         public void Limpiar()

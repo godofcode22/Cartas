@@ -18,7 +18,7 @@ namespace Cartas.Clases
             this.calculador = new CalculadorPuntosBlackjack();
         }
 
-        public void AgregarCarta(Carta carta)
+        public void AgregarCarta(CartaBlackJack carta)
         {
             Mano.AgregarCarta(carta);
         }

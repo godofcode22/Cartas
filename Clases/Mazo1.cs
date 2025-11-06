@@ -5,12 +5,12 @@ namespace Cartas.Clases
 {
     public class Mazo
     {
-        private List<Carta> cartas;
+        private List<CartaBlackJack> cartas;
         private Random random;
 
         public Mazo()
         {
-            cartas = new List<Carta>();
+            cartas = new List<CartaBlackJack>();
             random = new Random();
             CrearMazo();
         }
@@ -36,7 +36,7 @@ namespace Cartas.Clases
                     else
                         valor = 10;
 
-                    cartas.Add(new Carta(figura, palo, color, valor));
+                    cartas.Add(new CartaBlackJack(figura, palo, color, valor));
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace Cartas.Clases
             }
         }
 
-        public Carta RepartirCarta()
+        public CartaBlackJack RepartirCarta()
         {
             if (cartas.Count == 0)
                 throw new InvalidOperationException("No hay mas cartas en el mazo.");
