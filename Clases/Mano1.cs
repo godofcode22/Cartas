@@ -9,12 +9,12 @@ namespace Cartas.Clases
 
         public Mano()
         {
-            Cartas = new List<Carta>();
+            Cartas = new List<CartaBlackJack>();
         }
 
-        public void AgregarCarta(Carta carta)
+        public void AgregarCarta(CartaBlackJack carta)
         {
-            Cartas.Add(carta);
+            Cartas.Add(CartaBlackJack);
         }
 
         public void Limpiar()

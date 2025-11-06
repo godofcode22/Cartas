@@ -1,15 +1,17 @@
 using Cartas.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace Cartas.Clases
 {
-    public class Carta : ICarta
+    public class CartaBlackJack : ICarta
     {
         public string Figura { get; set; }
         public string Palo { get; set; }
         public string Color { get; set; }
         public int Valor { get; set; }
 
-        public Carta(string figura, string palo, string color, int valor)
+        public CartaBlackJack(string figura, string palo, string color, int valor)
         {
             Figura = figura;
             Palo = palo;

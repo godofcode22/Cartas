@@ -29,7 +29,7 @@ namespace Cartas.Clases
             {
                 Console.WriteLine($"RONDA {ronda}");
                 mazo.Barajar();
-                 RepartirCartasIniciales();
+                RepartirCartasIniciales();
             }
         }
     }  
