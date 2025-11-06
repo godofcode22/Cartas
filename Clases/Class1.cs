@@ -24,7 +24,7 @@ namespace Cartas.Clases
             return $"{Figura} de {Palo} ({Color})";
         }
     }
-    public class CartaBlackJack : ICarta
+    public class CartaBlackJack : ICartaBlackJack
     {
         public string Figura { get; set; }
         public string Palo { get; set; }
