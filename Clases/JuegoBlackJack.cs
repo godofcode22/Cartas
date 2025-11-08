@@ -28,9 +28,83 @@ namespace Cartas.Clases
             for (int ronda = 1; ronda <= rondas; ronda++)
             {
                 Console.WriteLine($"RONDA {ronda}");
+                if (mazo.CartasRestantes() < (2 * (jugadores.Count + 1)))
+                {
+                    mazo = new Mazo();
+                }
                 mazo.Barajar();
                 RepartirCartasIniciales();
+                MostrarEstadoInicial();
+                foreach (var jugador in jugadores)
+                {
+                    jugador.JugarTurno(mazo);
+                }
+                dealer.JugarTurno(mazo);
+                DeterminarGanadores();
+                LimpiarManos();
             }
+        }
+        private void RepartirCartasIniciales()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                foreach (var jugador in jugadores)
+                    jugador.AgregarCarta(mazo.RepartirCarta());
+
+                dealer.AgregarCarta(mazo.RepartirCarta());
+            }
+        }
+        private void MostrarEstadoInicial()
+        {
+            Console.WriteLine("Cartas iniciales:\n");
+
+            foreach (var jugador in jugadores)
+                jugador.MostrarMano();
+            Console.WriteLine($"Dealer muestra una carta: {dealer.Mano.Cartas[0].MostrarCarta()}\n");
+        }
+         private void DeterminarGanadores()
+        {
+            int puntosDealer = dealer.CalcularPuntos();
+
+            Console.WriteLine($"Dealer termina con {puntosDealer} puntos.\n");
+            if (puntosDealer > 21)
+            {
+                Console.WriteLine("El dealer se paso de 21. Ganan todos los que no se pasaron.");
+
+                foreach (var jugador in jugadores)
+                {
+                    int puntos = jugador.CalcularPuntos();
+                    if (puntos <= 21)
+                        Console.WriteLine($"{jugador.Nombre} gana con {puntos} puntos.");
+                    else
+                        Console.WriteLine($"{jugador.Nombre} se paso con {puntos} puntos.");
+                }
+            }
+            else
+            {
+                foreach (var jugador in jugadores)
+                {
+                    int puntos = jugador.CalcularPuntos();
+
+                    if (puntos > 21)
+                        Console.WriteLine($"{jugador.Nombre} pierde (se paso con {puntos}).");
+                    else if (puntos > puntosDealer)
+                        Console.WriteLine($"{jugador.Nombre} gana con {puntos} puntos (dealer tenia {puntosDealer}).");
+                    else if (puntos == puntosDealer)
+                        Console.WriteLine($"{jugador.Nombre} empata con el dealer ({puntos}).");
+                    else
+                        Console.WriteLine($"{jugador.Nombre} pierde ({puntos} vs dealer {puntosDealer}).");
+                }
+            }
+
+            Console.WriteLine("Fin de la ronda ");
+        }
+        private void LimpiarManos()
+        {
+            foreach (var jugador in jugadores)
+                jugador.LimpiarMano();
+
+            dealer.LimpiarMano();
         }
     }  
 }

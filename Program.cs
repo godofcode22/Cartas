@@ -5,21 +5,11 @@ class ProyectoCartas
 {
     static void Main()
     {
-        var mazo = new Mazo();
-        mazo.Barajar();
+        Console.WriteLine("Simulacion de Blackjack\n");
 
-        var manoJugador = new Mano();
+        var juego = new JuegoBlackjack(rondas: 2);
+        juego.Jugar();
 
-        for (int i = 0; i < 2; i++)
-        {
-            var carta = mazo.RepartirCarta();
-            manoJugador.AgregarCarta(carta);
-            Console.WriteLine($"Carta {i + 1}: {carta.MostrarCarta()}");
-        }
-        var calculador = new CalculadorPuntosBlackjack();
-        int puntos = calculador.CalcularPuntos(manoJugador);
-
-        Console.WriteLine($"Puntos del jugador: {puntos}");
-        Console.WriteLine($"Cartas restantes en el mazo: {mazo.CartasRestantes()}");
+        Console.WriteLine("\nFin de la simulacion");
     }
 }
