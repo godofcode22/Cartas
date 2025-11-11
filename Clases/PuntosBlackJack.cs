@@ -1,4 +1,5 @@
 using System.Linq;
+using Cartas.Interfaces;
 
 namespace Cartas.Clases
 {
@@ -11,10 +12,17 @@ namespace Cartas.Clases
 
             foreach (var carta in mano.Cartas)
             {
-                if (carta.Figura == "As")
+                if (carta is ICartaBlackJack cbj)
                 {
-                    ases++;
-                    total += 11;
+                    if (cbj.Figura == "As")
+                    {
+                        ases++;
+                        total += 11;
+                    }
+                    else
+                    {
+                        total += cbj.Valor;
+                    }
                 }
                 else
                 {
@@ -30,3 +38,4 @@ namespace Cartas.Clases
         }
     }
 }
+

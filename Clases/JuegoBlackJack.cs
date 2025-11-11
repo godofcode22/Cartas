@@ -13,37 +13,47 @@ namespace Cartas.Clases
         public JuegoBlackjack(int rondas = 1)
         {
             this.rondas = rondas;
-            mazo = new Mazo();
+
+            mazo = new Mazo(new GeneradorMazoBlackjack());
             mazo.Barajar();
+
             jugadores = new List<JugadorPrincipal>
             {
                 new JugadorPrincipal("Jugador 1", new JugadorCauteloso(17)),
                 new JugadorPrincipal("Jugador 2", new JugadorTemerario())
             };
-
             dealer = new Dealer();
         }
+
         public void Jugar()
         {
             for (int ronda = 1; ronda <= rondas; ronda++)
             {
-                Console.WriteLine($"RONDA {ronda}");
+                Console.WriteLine($"\n===== RONDA {ronda} =====");
+
                 if (mazo.CartasRestantes() < (2 * (jugadores.Count + 1)))
                 {
-                    mazo = new Mazo();
+                    mazo = new Mazo(new GeneradorMazoBlackjack());
+                    mazo.Barajar();
                 }
-                mazo.Barajar();
+                else
+                {
+                    mazo.Barajar();
+                }
                 RepartirCartasIniciales();
                 MostrarEstadoInicial();
+
                 foreach (var jugador in jugadores)
                 {
                     jugador.JugarTurno(mazo);
                 }
                 dealer.JugarTurno(mazo);
+
                 DeterminarGanadores();
                 LimpiarManos();
             }
         }
+
         private void RepartirCartasIniciales()
         {
             for (int i = 0; i < 2; i++)
@@ -54,22 +64,25 @@ namespace Cartas.Clases
                 dealer.AgregarCarta(mazo.RepartirCarta());
             }
         }
+
         private void MostrarEstadoInicial()
         {
-            Console.WriteLine("Cartas iniciales:\n");
-
+            Console.WriteLine("\nCartas iniciales:");
             foreach (var jugador in jugadores)
                 jugador.MostrarMano();
+
             Console.WriteLine($"Dealer muestra una carta: {dealer.Mano.Cartas[0].MostrarCarta()}\n");
         }
-         private void DeterminarGanadores()
+
+        private void DeterminarGanadores()
         {
             int puntosDealer = dealer.CalcularPuntos();
 
             Console.WriteLine($"Dealer termina con {puntosDealer} puntos.\n");
+
             if (puntosDealer > 21)
             {
-                Console.WriteLine("El dealer se paso de 21. Ganan todos los que no se pasaron.");
+                Console.WriteLine("El dealer se paso de 21. Ganan todos los que no se pasaron.\n");
 
                 foreach (var jugador in jugadores)
                 {
@@ -97,8 +110,9 @@ namespace Cartas.Clases
                 }
             }
 
-            Console.WriteLine("Fin de la ronda ");
+            Console.WriteLine("\n===== Fin de la ronda =====\n");
         }
+
         private void LimpiarManos()
         {
             foreach (var jugador in jugadores)
@@ -106,5 +120,5 @@ namespace Cartas.Clases
 
             dealer.LimpiarMano();
         }
-    }  
+    }
 }

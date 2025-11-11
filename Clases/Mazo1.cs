@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cartas.Interfaces;
 
 namespace Cartas.Clases
 {
@@ -8,39 +9,17 @@ namespace Cartas.Clases
         private List<CartaBlackJack> cartas;
         private Random random;
 
-        public Mazo()
+        public Mazo(IGeneradorDeMazo generador)
         {
             cartas = new List<CartaBlackJack>();
             random = new Random();
-            CrearMazo();
-        }
 
-        private void CrearMazo()
-        {
-            string[] palos = { "Corazones", "Diamantes", "Treboles", "Picas" };
-            string[] colores = { "Rojo", "Negro" };
-            string[] figuras = { "As", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
-
-            foreach (var palo in palos)
+            foreach (var carta in generador.CrearCartas())
             {
-                string color = (palo == "Corazones" || palo == "Diamantes") ? colores[0] : colores[1];
-
-                foreach (var figura in figuras)
-                {
-                    int valor;
-
-                    if (int.TryParse(figura, out valor))
-                        valor = int.Parse(figura);
-                    else if (figura == "As")
-                        valor = 11;
-                    else
-                        valor = 10;
-
-                    cartas.Add(new CartaBlackJack(figura, palo, color, valor));
-                }
+                if (carta is CartaBlackJack cartaBJ)
+                    cartas.Add(cartaBJ);
             }
         }
-
         public void Barajar()
         {
             for (int i = 0; i < cartas.Count; i++)
@@ -51,7 +30,6 @@ namespace Cartas.Clases
                 cartas[j] = temp;
             }
         }
-
         public CartaBlackJack RepartirCarta()
         {
             if (cartas.Count == 0)
@@ -61,7 +39,6 @@ namespace Cartas.Clases
             cartas.RemoveAt(0);
             return carta;
         }
-
         public int CartasRestantes()
         {
             return cartas.Count;

@@ -1,30 +1,20 @@
-using System;
-
 namespace Cartas.Interfaces
 {
-    public interface ICartaBlackJack
+    public interface ICarta
+    {
+        string Color { get; }
+        int Valor { get; }
+        string MostrarCarta();
+    }
+
+    public interface ICartaBlackJack : ICarta
     {
         string Figura { get; }
         string Palo { get; }
-        string Color { get; }
-        int Valor { get; }
-
-        string MostrarCarta();
     }
-    public interface ICartaUNO
+    
+    public interface ICartaUNO : ICarta
     {
-        string Color { get; }
         string Tipo { get; }
-        int Valor { get; }
-
-        string MostrarCarta();
-    }
-    public interface ICarta
-    {
-      
-        string Color { get; }
-        int Valor { get; }
-
-        string MostrarCarta();
     }
 }
