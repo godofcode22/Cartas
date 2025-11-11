@@ -1,6 +1,6 @@
 using System;
 
-public interface Interface1
+public interface IJuego
 {
   public void Inicializar()
     {
