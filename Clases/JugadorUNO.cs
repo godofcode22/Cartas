@@ -28,14 +28,14 @@ namespace Cartas.Clases
             Mano.MostrarMano();
         }
 
-        public bool JugarTurno(Mazo mazo, List<ICarta> pozo, ref string colorActual)
+        public bool JugarTurno(Mazo mazo, List<ICarta> pozo, ref string colorActual, int CartasSiguienteJugador)
         {
             ICartaUNO? cartaPozo = null;
             if (pozo.Count > 0)
             {
                 cartaPozo = (ICartaUNO)pozo[pozo.Count - 1];
             }
-            var cartaElegida = comportamiento.ElegirCarta(Mano, cartaPozo, colorActual);
+            var cartaElegida = comportamiento.ElegirCarta(Mano, cartaPozo, colorActual, CartasSiguienteJugador);
 
             if (cartaElegida != null)
             {
@@ -65,12 +65,25 @@ namespace Cartas.Clases
                 Mano.AgregarCarta(nueva);
                 Console.WriteLine($"{Nombre} roba una carta ({nueva.MostrarCarta()})");
 
-                if (comportamiento.PuedeJugarCarta(nueva, cartaPozo, colorActual))
-                {
-                    Mano.Cartas.Remove(nueva);
-                    pozo.Add(nueva);
-                    Console.WriteLine($"{Nombre} juega la carta recien robada: {nueva.MostrarCarta()}");
-                }
+               if (comportamiento.PuedeJugarCarta(nueva, cartaPozo, colorActual))
+        {
+           
+               Mano.Cartas.Remove(nueva);
+               pozo.Add(nueva);
+               Console.WriteLine($"{Nombre} juega la carta recien robada: {nueva.MostrarCarta()}");
+            
+            
+               var cartaUNO = (ICartaUNO)nueva;
+               if (cartaUNO.Color == "" && (cartaUNO.Tipo == "CambioColor" || cartaUNO.Tipo == "+4"))
+              {
+                colorActual = comportamiento.ElegirColor();
+                Console.WriteLine($"{Nombre} cambia el color a {colorActual}");
+              }
+               else
+              {
+                colorActual = cartaUNO.Color;
+              }
+        }
                 return false;
             }
         }
