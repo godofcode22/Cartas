@@ -1,17 +1,11 @@
 using System;
 
-public interface IJuego
+namespace Cartas.Interfaces
 {
-  public void Inicializar()
+    public interface IJuego
     {
-        
+        void Inicializar();
+        void Jugar();
+        void MostrarResultados();
     }
-  public void Jugar()
-    {
-        
-    }
-  public void MostrarResultados()
-    {
-        
-    }  
 }

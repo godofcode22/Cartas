@@ -1,15 +1,72 @@
 ﻿using System;
 using Cartas.Clases;
+using Cartas.Interfaces;
 
-class ProyectoCartas
+namespace Cartas
 {
-    static void Main()
+    class Program
     {
-        Console.WriteLine("Simulacion de Blackjack\n");
+        static void Main(string[] args)
+        {
+           string opcion = "";
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("=== SIMULADOR DE JUEGOS ===");
+                Console.WriteLine("1) Jugar UNO");
+                Console.WriteLine("2) Jugar Blackjack");
+                Console.WriteLine("3) Salir");
+                Console.WriteLine();
+                Console.Write("Elige una opcion: ");
+                opcion = Console.ReadLine() ?? "";
 
-        var juego = new JuegoBlackjack(rondas: 2);
-        juego.Jugar();
+                if (opcion == "1")
+                {
+                    EjecutarUNO();
+                }
+                else if (opcion == "2")
+                {
+                    EjecutarBlackjack();
+                }
+                else if (opcion == "3")
+                {
+                    Console.WriteLine("\nSaliendo del programa");
+                }
+                else
+                {
+                    Console.WriteLine("\nOpcion no valida, intenta de nuevo");
+                }
+                if (opcion != "3")
+                {
+                    Console.WriteLine("\nPresiona ENTER para continuar");
+                    Console.ReadLine();
+                }
 
-        Console.WriteLine("\nFin de la simulacion");
+            } while (opcion != "3");
+        }
+
+        private static void EjecutarUNO()
+        {
+            Console.Clear();
+            Console.WriteLine("=== JUEGO UNO ===\n");
+
+            var juegoUno = new JuegoUNO();
+            juegoUno.Inicializar();
+            juegoUno.Jugar();
+
+            Console.WriteLine("\n=== Fin del juego UNO ===");
+        }
+
+        private static void EjecutarBlackjack()
+        {
+            Console.Clear();
+            Console.WriteLine("=== JUEGO BLACKJACK ===\n");
+
+            var juegoBJ = new JuegoBlackjack(1);
+            juegoBJ.Jugar();
+
+            Console.WriteLine("\n=== Fin del juego BLACKJACK ===");
+        }
     }
 }
+

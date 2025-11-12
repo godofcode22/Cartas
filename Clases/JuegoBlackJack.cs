@@ -59,9 +59,8 @@ namespace Cartas.Clases
             for (int i = 0; i < 2; i++)
             {
                 foreach (var jugador in jugadores)
-                    jugador.AgregarCarta(mazo.RepartirCarta());
-
-                dealer.AgregarCarta(mazo.RepartirCarta());
+                    jugador.AgregarCarta((CartaBlackJack)mazo.RepartirCarta());
+                    dealer.AgregarCarta((CartaBlackJack)mazo.RepartirCarta());
             }
         }
 
