@@ -6,20 +6,15 @@ namespace Cartas.Clases
 {
     public class Mazo
     {
-        private List<CartaBlackJack> cartas;
+        private List<ICarta> cartas;
         private Random random;
 
         public Mazo(IGeneradorDeMazo generador)
         {
-            cartas = new List<CartaBlackJack>();
+            cartas = new List<ICarta>(generador.CrearCartas());
             random = new Random();
-
-            foreach (var carta in generador.CrearCartas())
-            {
-                if (carta is CartaBlackJack cartaBJ)
-                    cartas.Add(cartaBJ);
-            }
         }
+        
         public void Barajar()
         {
             for (int i = 0; i < cartas.Count; i++)
@@ -30,7 +25,8 @@ namespace Cartas.Clases
                 cartas[j] = temp;
             }
         }
-        public CartaBlackJack RepartirCarta()
+
+        public ICarta RepartirCarta()
         {
             if (cartas.Count == 0)
                 throw new InvalidOperationException("No hay mas cartas en el mazo.");
@@ -39,6 +35,7 @@ namespace Cartas.Clases
             cartas.RemoveAt(0);
             return carta;
         }
+
         public int CartasRestantes()
         {
             return cartas.Count;

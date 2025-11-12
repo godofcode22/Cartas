@@ -28,14 +28,13 @@ namespace Cartas.Clases
             Mano.MostrarMano();
         }
 
-        public bool JugarTurno(Mazo mazo, List<ICarta> pozo, ref string colorActual)
+        public bool JugarTurno(Mazo mazo, List<ICarta> pozo, ref string colorActual, int cartasSiguienteJugador)
         {
             ICartaUNO? cartaPozo = null;
             if (pozo.Count > 0)
-            {
                 cartaPozo = (ICartaUNO)pozo[pozo.Count - 1];
-            }
-            var cartaElegida = comportamiento.ElegirCarta(Mano, cartaPozo, colorActual);
+
+            ICarta cartaElegida = comportamiento.ElegirCarta(Mano, cartaPozo, colorActual, cartasSiguienteJugador);
 
             if (cartaElegida != null)
             {
@@ -43,6 +42,7 @@ namespace Cartas.Clases
                 pozo.Add(cartaElegida);
 
                 var cartaUNO = (ICartaUNO)cartaElegida;
+
                 if (cartaUNO.Color == "" && (cartaUNO.Tipo == "CambioColor" || cartaUNO.Tipo == "+4"))
                 {
                     colorActual = comportamiento.ElegirColor();
@@ -52,16 +52,17 @@ namespace Cartas.Clases
                 {
                     colorActual = cartaUNO.Color;
                 }
+
                 Console.WriteLine($"{Nombre} juega: {cartaUNO.MostrarCarta()}");
 
                 if (Mano.Cartas.Count == 1)
-                    Console.WriteLine($"{Nombre} UNOOOOOO");
+                    Console.WriteLine($"{Nombre}: ¡UNO!");
 
                 return true;
             }
             else
             {
-                var nueva = mazo.RepartirCarta();
+                ICarta nueva = mazo.RepartirCarta();
                 Mano.AgregarCarta(nueva);
                 Console.WriteLine($"{Nombre} roba una carta ({nueva.MostrarCarta()})");
 
@@ -70,9 +71,21 @@ namespace Cartas.Clases
                     Mano.Cartas.Remove(nueva);
                     pozo.Add(nueva);
                     Console.WriteLine($"{Nombre} juega la carta recien robada: {nueva.MostrarCarta()}");
+
+                    var cartaUNO = (ICartaUNO)nueva;
+                    if (cartaUNO.Color == "" && (cartaUNO.Tipo == "CambioColor" || cartaUNO.Tipo == "+4"))
+                    {
+                        colorActual = comportamiento.ElegirColor();
+                        Console.WriteLine($"{Nombre} cambia el color a {colorActual}");
+                    }
+                    else
+                    {
+                        colorActual = cartaUNO.Color;
+                    }
                 }
                 return false;
             }
         }
     }
 }
+
