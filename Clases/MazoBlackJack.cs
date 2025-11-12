@@ -40,5 +40,12 @@ namespace Cartas.Clases
         {
             return cartas.Count;
         }
+        public void AgregarCartaAlFondo(ICarta carta)
+        {
+         if (carta != null)
+         {
+           cartas.Add(carta);
+         }
+        }
     }
 }
