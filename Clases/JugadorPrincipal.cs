@@ -18,9 +18,16 @@ namespace Cartas.Clases
             this.calculador = new CalculadorPuntosBlackjack();
         }
 
-        public void AgregarCarta(CartaBlackJack carta)
+        public void AgregarCarta(ICarta carta)
         {
-            Mano.AgregarCarta(carta);
+            if (carta is CartaBlackJack cartaBJ)
+            {
+                Mano.AgregarCarta(cartaBJ);
+            }
+            else
+            {
+                throw new ArgumentException("El jugador de Blackjack recibió una carta que no es de Blackjack.");
+            }
         }
 
         public int CalcularPuntos()
@@ -58,7 +65,6 @@ namespace Cartas.Clases
                     break;
                 }
             }
-
             Console.WriteLine($"{Nombre} termina turno con {CalcularPuntos()} puntos.");
         }
 
