@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cartas.Interfaces;
 
 namespace Cartas.Clases
 {
@@ -13,7 +14,6 @@ namespace Cartas.Clases
         public JuegoBlackjack(int rondas = 1)
         {
             this.rondas = rondas;
-
             mazo = new Mazo(new GeneradorMazoBlackjack());
             mazo.Barajar();
 
@@ -22,6 +22,7 @@ namespace Cartas.Clases
                 new JugadorPrincipal("Jugador 1", new JugadorCauteloso(17)),
                 new JugadorPrincipal("Jugador 2", new JugadorTemerario())
             };
+
             dealer = new Dealer();
         }
 
@@ -40,15 +41,14 @@ namespace Cartas.Clases
                 {
                     mazo.Barajar();
                 }
+
                 RepartirCartasIniciales();
                 MostrarEstadoInicial();
 
                 foreach (var jugador in jugadores)
-                {
                     jugador.JugarTurno(mazo);
-                }
-                dealer.JugarTurno(mazo);
 
+                dealer.JugarTurno(mazo);
                 DeterminarGanadores();
                 LimpiarManos();
             }
@@ -60,7 +60,7 @@ namespace Cartas.Clases
             {
                 foreach (var jugador in jugadores)
                     jugador.AgregarCarta((CartaBlackJack)mazo.RepartirCarta());
-                    dealer.AgregarCarta((CartaBlackJack)mazo.RepartirCarta());
+                dealer.AgregarCarta((CartaBlackJack)mazo.RepartirCarta());
             }
         }
 
@@ -76,12 +76,11 @@ namespace Cartas.Clases
         private void DeterminarGanadores()
         {
             int puntosDealer = dealer.CalcularPuntos();
-
             Console.WriteLine($"Dealer termina con {puntosDealer} puntos.\n");
 
             if (puntosDealer > 21)
             {
-                Console.WriteLine("El dealer se paso de 21. Ganan todos los que no se pasaron.\n");
+                Console.WriteLine("El dealer se pasó de 21. Ganan todos los que no se pasaron.\n");
 
                 foreach (var jugador in jugadores)
                 {
@@ -89,7 +88,7 @@ namespace Cartas.Clases
                     if (puntos <= 21)
                         Console.WriteLine($"{jugador.Nombre} gana con {puntos} puntos.");
                     else
-                        Console.WriteLine($"{jugador.Nombre} se paso con {puntos} puntos.");
+                        Console.WriteLine($"{jugador.Nombre} se pasó con {puntos} puntos.");
                 }
             }
             else
@@ -99,9 +98,9 @@ namespace Cartas.Clases
                     int puntos = jugador.CalcularPuntos();
 
                     if (puntos > 21)
-                        Console.WriteLine($"{jugador.Nombre} pierde (se paso con {puntos}).");
+                        Console.WriteLine($"{jugador.Nombre} pierde (se pasó con {puntos}).");
                     else if (puntos > puntosDealer)
-                        Console.WriteLine($"{jugador.Nombre} gana con {puntos} puntos (dealer tenia {puntosDealer}).");
+                        Console.WriteLine($"{jugador.Nombre} gana con {puntos} puntos (dealer tenía {puntosDealer}).");
                     else if (puntos == puntosDealer)
                         Console.WriteLine($"{jugador.Nombre} empata con el dealer ({puntos}).");
                     else
@@ -116,7 +115,6 @@ namespace Cartas.Clases
         {
             foreach (var jugador in jugadores)
                 jugador.LimpiarMano();
-
             dealer.LimpiarMano();
         }
     }

@@ -14,7 +14,7 @@ namespace Cartas.Clases
             cartas = new List<ICarta>(generador.CrearCartas());
             random = new Random();
         }
-        
+
         public void Barajar()
         {
             for (int i = 0; i < cartas.Count; i++)
@@ -29,7 +29,7 @@ namespace Cartas.Clases
         public ICarta RepartirCarta()
         {
             if (cartas.Count == 0)
-                throw new InvalidOperationException("No hay mas cartas en el mazo.");
+                throw new InvalidOperationException("No hay más cartas en el mazo.");
 
             var carta = cartas[0];
             cartas.RemoveAt(0);

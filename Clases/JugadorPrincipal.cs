@@ -21,7 +21,7 @@ namespace Cartas.Clases
         public void AgregarCarta(ICarta carta)
         {
             if (carta is CartaBlackJack cartaBJ)
-            {
+        {
                 Mano.AgregarCarta(cartaBJ);
             }
             else
