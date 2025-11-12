@@ -1,28 +1,36 @@
 using System;
 using System.Collections.Generic;
-
+using Cartas.Interfaces;
 namespace Cartas.Clases
 {
-    public class JuegoBlackjack
+    public class JuegoBlackjack : IJuego 
     {
         private List<JugadorPrincipal> jugadores;
         private Dealer dealer;
         private Mazo mazo;
         private int rondas;
 
-        public JuegoBlackjack(int rondas = 1)
+        public JuegoBlackjack(int rondas, List<JugadorPrincipal> jugadores, List<ICarta> mazoFijo = null)
         {
             this.rondas = rondas;
+            this.jugadores = jugadores; 
+            this.dealer = new Dealer();
 
-            mazo = new Mazo(new GeneradorMazoBlackjack());
-            mazo.Barajar();
-
-            jugadores = new List<JugadorPrincipal>
+            if (mazoFijo != null)
             {
-                new JugadorPrincipal("Jugador 1", new JugadorCauteloso(17)),
-                new JugadorPrincipal("Jugador 2", new JugadorTemerario())
-            };
-            dealer = new Dealer();
+                Console.WriteLine("=== INICIANDO CON MAZO FIJO (MODO EVALUACIÓN) ===");
+                mazo = new Mazo(mazoFijo);
+            }
+            else
+            {
+                mazo = new Mazo(new GeneradorMazoBlackjack());
+                mazo.Barajar();
+            }
+        }
+
+        public void Inicializar()
+        {
+             Console.WriteLine("Juego de Blackjack inicializado.");
         }
 
         public void Jugar()
@@ -33,13 +41,11 @@ namespace Cartas.Clases
 
                 if (mazo.CartasRestantes() < (2 * (jugadores.Count + 1)))
                 {
+                    Console.WriteLine("Re-barajando mazo estándar...");
                     mazo = new Mazo(new GeneradorMazoBlackjack());
                     mazo.Barajar();
                 }
-                else
-                {
-                    mazo.Barajar();
-                }
+
                 RepartirCartasIniciales();
                 MostrarEstadoInicial();
 
@@ -52,6 +58,12 @@ namespace Cartas.Clases
                 DeterminarGanadores();
                 LimpiarManos();
             }
+            MostrarResultados();
+        }
+        
+        public void MostrarResultados()
+        {
+             Console.WriteLine("\n===== Fin de la partida de Blackjack =====\n");
         }
 
         private void RepartirCartasIniciales()
@@ -59,8 +71,8 @@ namespace Cartas.Clases
             for (int i = 0; i < 2; i++)
             {
                 foreach (var jugador in jugadores)
-                    jugador.AgregarCarta((CartaBlackJack)mazo.RepartirCarta());
-                    dealer.AgregarCarta((CartaBlackJack)mazo.RepartirCarta());
+                    jugador.AgregarCarta(mazo.RepartirCarta()); 
+                    dealer.AgregarCarta(mazo.RepartirCarta());
             }
         }
 
@@ -72,11 +84,10 @@ namespace Cartas.Clases
 
             Console.WriteLine($"Dealer muestra una carta: {dealer.Mano.Cartas[0].MostrarCarta()}\n");
         }
-
+        
         private void DeterminarGanadores()
         {
             int puntosDealer = dealer.CalcularPuntos();
-
             Console.WriteLine($"Dealer termina con {puntosDealer} puntos.\n");
 
             if (puntosDealer > 21)
@@ -111,12 +122,11 @@ namespace Cartas.Clases
 
             Console.WriteLine("\n===== Fin de la ronda =====\n");
         }
-
+        
         private void LimpiarManos()
         {
             foreach (var jugador in jugadores)
                 jugador.LimpiarMano();
-
             dealer.LimpiarMano();
         }
     }

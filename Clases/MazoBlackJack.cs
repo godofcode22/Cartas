@@ -14,6 +14,12 @@ namespace Cartas.Clases
             cartas = new List<ICarta>(generador.CrearCartas());
             random = new Random();
         }
+
+        public Mazo(List<ICarta> cartasFijas)
+        {
+            cartas = new List<ICarta>(cartasFijas);
+            random = new Random();
+        }
         
         public void Barajar()
         {
@@ -39,6 +45,15 @@ namespace Cartas.Clases
         public int CartasRestantes()
         {
             return cartas.Count;
+        }
+
+        public void MostrarCartas(int cantidad)
+        {
+            Console.WriteLine($"Mostrando las primeras {cantidad} cartas del mazo:");
+            for (int i = 0; i < cantidad && i < cartas.Count; i++)
+            {
+                Console.WriteLine($"- {cartas[i].MostrarCarta()}");
+            }
         }
     }
 }
