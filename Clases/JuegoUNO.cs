@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
-=======
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Cartas.Clases;
 using Cartas.Interfaces;
 
 namespace Cartas.Clases
@@ -30,17 +26,15 @@ namespace Cartas.Clases
             {
                 new JugadorUNO("Jugador 1", new ComportamientoAleatorioUNO()),
                 new JugadorUNO("Jugador 2", new ComportamientoCalculadorUNO()),
-                new JugadorUNO("Jugador 3", new  ComportamientoAleatorioUNO())
+                new JugadorUNO("Jugador 3", new ComportamientoAleatorioUNO())
             };
-
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 7; i++)
             {
                 foreach (var jugador in jugadores)
                 {
                     jugador.AgregarCarta(mazo.RepartirCarta());
                 }
             }
-
             ICarta primeraCarta = mazo.RepartirCarta();
             while (((ICartaUNO)primeraCarta).Tipo == "+4" || ((ICartaUNO)primeraCarta).Tipo == "CambioColor")
                 primeraCarta = mazo.RepartirCarta();
@@ -73,12 +67,14 @@ namespace Cartas.Clases
                     juegoTerminado = true;
                     break;
                 }
+
                 AplicarEfectos((ICartaUNO)cartasDescarte[cartasDescarte.Count - 1]);
                 AvanzarTurno();
             }
             MostrarResultados();
         }
-         private int ObtenerCartasSiguienteJugador()
+
+        private int ObtenerCartasSiguienteJugador()
         {
             int siguiente = indiceJugadorActual + direccionJuego;
             if (siguiente < 0) siguiente = jugadores.Count - 1;
@@ -136,4 +132,3 @@ namespace Cartas.Clases
         }
     }
 }
->>>>>>> Stashed changes
