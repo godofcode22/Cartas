@@ -32,6 +32,35 @@ namespace Cartas
                 {
                     Console.WriteLine("\nSaliendo del programa");
                 }
+                else if (opcion == "4")
+                {
+                    Console.WriteLine("Crear mazos para pruebas");
+                    Mazo MazoBJ = new Mazo(new GeneradorMazoBlackjack());
+                    Mazo MazoUNO = new Mazo(new GeneradorMazoUNO());
+                    Console.WriteLine($"primeras 10 cartas del mazo \n");
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Console.WriteLine(MazoBJ.RepartirCarta().MostrarCarta());
+                    }
+                    List<ICarta> cartasSacadas = new List<ICarta>();
+                    for (int i = 0; i < 10; i++)
+                    {
+                        var carta = MazoBJ.RepartirCarta();
+                        cartasSacadas.Add(carta);
+                        Console.WriteLine($"{carta.MostrarCarta()} carta sacada del mazo");
+                    }
+                    foreach (var carta in cartasSacadas)
+                    {
+                        MazoBJ.AgregarCarta(carta);
+                        Console.WriteLine($"{carta.MostrarCarta()} carta devuelta al mazo");
+                    }
+                    MazoBJ.Barajar();
+                    Console.WriteLine($"\nprimeras 10 cartas del mazo despues de devolverlas y barajar \n");
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Console.WriteLine(MazoBJ.RepartirCarta().MostrarCarta());
+                    }
+                }
                 else
                 {
                     Console.WriteLine("\nOpcion no valida, intenta de nuevo");

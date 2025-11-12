@@ -40,5 +40,12 @@ namespace Cartas.Clases
         {
             return cartas.Count;
         }
+        public void AgregarCarta(ICarta carta)
+        {
+          if (carta != null)
+          {
+            cartas.Add(carta);
+          }
+        }
     }
 }
